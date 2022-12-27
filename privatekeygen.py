@@ -27,13 +27,13 @@ def ui():
             ini+=1
 
     elif id == '3':
-    	mnemonic_phrase = input("Enter the mnemonic phrase - ")
-	seed = mnemonic.Mnemonic.to_seed(mnemonic_phrase)
+        mnemonic_phrase = input("Enter the mnemonic phrase - ")
+        seed = mnemonic.Mnemonic.to_seed(mnemonic_phrase)
 
-	# Use the seed to generate the private key
-	private_key = seed.PrivateKey()
-
-	print(private_key.hex())    	
+        # Use the seed to generate the private key
+        private_key_bytes = hashlib.sha256(seed).digest()
+        private_key = ecdsa.SigningKey.from_string(private_key_bytes, curve=ecdsa.SECP256k1)
+        print(private_key.to_string().hex())
 
 
 if __name__ == "__main__":
